@@ -10,6 +10,12 @@ export class Category extends BaseEntity {
   })
   name!: string;
 
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  description?: string;
+
   @OneToMany(() => Product, (product) => product.category)
   products!: Product[];
 }
