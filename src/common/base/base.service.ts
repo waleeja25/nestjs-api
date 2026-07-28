@@ -15,13 +15,13 @@ export abstract class BaseService<T extends BaseEntity> {
     return this.repository.find();
   }
 
-  async findById(id: number): Promise<T> {
+  async findById(id: number, entityName = 'Record'): Promise<T> {
     const entity = await this.repository.findOneBy({
       id,
     } as FindOptionsWhere<T>);
 
     if (!entity) {
-      throw new NotFoundException(`Record with ID ${id} not found`);
+      throw new NotFoundException(`${entityName} with ID ${id} not found`);
     }
 
     return entity;
