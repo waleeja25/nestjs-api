@@ -10,6 +10,6 @@ export class CategoriesService extends BaseService<Category> {
     @InjectRepository(Category)
     protected readonly repository: Repository<Category>,
   ) {
-    super(repository);
+    super(repository, 'Category');
   }
 }

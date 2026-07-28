@@ -22,8 +22,8 @@ export class ProductsService extends BaseService<Product> {
 
   async create(dto: CreateProductDto): Promise<Product> {
     const [user, category] = await Promise.all([
-      this.usersService.findById(dto.userId, 'User'),
-      this.categoriesService.findById(dto.categoryId, 'Category'),
+      this.usersService.findById(dto.userId),
+      this.categoriesService.findById(dto.categoryId),
     ]);
     return super.create({
       ...dto,

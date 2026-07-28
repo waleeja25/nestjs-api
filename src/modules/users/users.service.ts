@@ -11,7 +11,7 @@ export class UsersService extends BaseService<User> {
     @InjectRepository(User)
     protected readonly repository: Repository<User>,
   ) {
-    super(repository);
+    super(repository, 'User');
   }
 
   override async create(createUserDto: CreateUserDto): Promise<User> {
