@@ -4,6 +4,8 @@ import { AppModule } from './app.module';
 import { DataSource } from 'typeorm';
 import { Logger } from '@nestjs/common';
 import { ValidationPipe } from '@nestjs/common';
+import { ResponseInterceptor } from './common';
+import { HttpExceptionFilter } from './common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +23,9 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+  app.useGlobalInterceptors(new ResponseInterceptor());
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   const configService = app.get(ConfigService);
 
