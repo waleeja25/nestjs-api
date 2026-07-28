@@ -2,12 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { BaseService } from '../../common';
+import { BaseService, PaginatedResult } from '../../common';
 import { UsersService } from '../users';
 import { CategoriesService } from '../categories';
 
 import { Product } from './entities';
-import { CreateProductDto, UpdateProductDto } from './dto';
+import { CreateProductDto, UpdateProductDto, ProductQueryDto } from './dto';
 
 @Injectable()
 export class ProductsService extends BaseService<Product> {
@@ -52,6 +52,39 @@ export class ProductsService extends BaseService<Product> {
       },
     });
   }
+
+  async findAllWithFilters(
+    query: ProductQueryDto,
+  ): Promise<PaginatedResult<Product>> {
+    const { page = 1, limit = 10, search, userId, categoryId } = query;
+
+    const qb = this.repository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.user', 'user')
+      .leftJoinAndSelect('product.category', 'category');
+
+    if (search) {
+      qb.andWhere('product.name LIKE :search', { search: `%${search}%` });
+    }
+    if (userId) {
+      qb.andWhere('product.userId = :userId', { userId });
+    }
+    if (categoryId) {
+      qb.andWhere('product.categoryId = :categoryId', { categoryId });
+    }
+
+    qb.orderBy('product.id', 'ASC')
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    const [products, total] = await qb.getManyAndCount();
+
+    return {
+      items: products,
+      meta: { page, limit, total, totalPages: Math.ceil(total / limit) },
+    };
+  }
+
   override async findById(id: number): Promise<Product> {
     const product = await this.repository.findOne({
       where: { id },
