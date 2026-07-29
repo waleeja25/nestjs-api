@@ -69,10 +69,15 @@ export class ProductsService extends BaseService<Product> {
       .take(limit);
 
     const [products, total] = await qb.getManyAndCount();
+    const totalPages = Math.ceil(total / limit);
+
+    if (page > totalPages && total > 0) {
+      throw new NotFoundException(`Page ${page} does not exist`);
+    }
 
     return {
       items: products,
-      meta: { page, limit, total, totalPages: Math.ceil(total / limit) },
+      meta: { page, limit, total, totalPages },
     };
   }
 
