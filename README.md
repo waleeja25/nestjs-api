@@ -40,14 +40,15 @@ A modular RESTful CRUD API built with **NestJS**, **TypeORM**, and **MySQL**. Th
 ```text
 src
 ├── common
+│   ├── base
 │   ├── constants
 │   ├── decorators
+│   ├── dto
 │   ├── filters
-│   ├── helpers
 │   ├── interceptors
-│   ├── middleware
-│   ├── services
-│   └── interfaces
+│   ├── interfaces
+│   ├── lib
+│   └── middleware
 │
 ├── config
 │
