@@ -6,7 +6,7 @@ export class LoggingMiddleware implements NestMiddleware {
   private readonly logger = new Logger('LoggingMiddleware');
 
   use(req: Request, res: Response, next: NextFunction): void {
-    const { method, url } = req;
+    const { method } = req;
     const startTime = Date.now();
 
     res.on('finish', () => {
@@ -14,7 +14,7 @@ export class LoggingMiddleware implements NestMiddleware {
       const resource = req.originalUrl.split('/')[1];
 
       this.logger.log(
-        `${method} request received for ${resource}${url} status: ${res.statusCode} - ${responseTime}ms`,
+        `${method} request received for ${resource} status: ${res.statusCode} - ${responseTime}ms`,
       );
     });
 

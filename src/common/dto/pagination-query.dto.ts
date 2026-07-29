@@ -7,6 +7,7 @@ import {
   IsString,
   Max,
   IsNotEmpty,
+  MaxLength,
 } from 'class-validator';
 
 export class PaginationQueryDto {
@@ -46,6 +47,9 @@ export class PaginationQueryDto {
   limit = 10;
 
   @IsOptional()
+  @MaxLength(100, {
+    message: 'Search length cant exceed 100',
+  })
   @IsString({
     message: 'Search must be a string',
   })

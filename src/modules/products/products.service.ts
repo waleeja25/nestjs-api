@@ -71,6 +71,10 @@ export class ProductsService extends BaseService<Product> {
     const [products, total] = await qb.getManyAndCount();
     const totalPages = Math.ceil(total / limit);
 
+    if (total === 0 && (search || userId || categoryId)) {
+      throw new NotFoundException('No matching products found.');
+    }
+
     if (page > totalPages && total > 0) {
       throw new NotFoundException(`Page ${page} does not exist`);
     }

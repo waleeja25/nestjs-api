@@ -9,15 +9,19 @@ import { Reflector } from '@nestjs/core';
 import { Observable, map } from 'rxjs';
 import { DEFAULT_MESSAGES } from '../constants';
 import { RESOURCE_NAME } from '../decorators';
-import { Response } from '../interface';
+import { ApiResponse } from '../interface';
+import { Request } from 'express';
 
 @Injectable()
-export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
+export class ResponseInterceptor<T> implements NestInterceptor<
+  T,
+  ApiResponse<T>
+> {
   constructor(private readonly reflector: Reflector) {}
   intercept(
     context: ExecutionContext,
     next: CallHandler<any>,
-  ): Observable<Response<T>> {
+  ): Observable<ApiResponse<T>> {
     const request = context.switchToHttp().getRequest<Request>();
 
     const resourceName = this.reflector.get<string>(
