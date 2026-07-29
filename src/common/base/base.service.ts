@@ -1,9 +1,7 @@
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { BaseEntity } from './base.entity';
-
-import { QueryFailedError } from 'typeorm';
-import { MYSQL_ERRORS } from '../constants';
+import { handleDatabaseError } from '../lib';
 
 export abstract class BaseService<T extends BaseEntity> {
   constructor(
@@ -15,24 +13,7 @@ export abstract class BaseService<T extends BaseEntity> {
     try {
       return await query();
     } catch (error) {
-      if (error instanceof QueryFailedError) {
-        const errno = (error.driverError as { errno?: number })?.errno;
-
-        if (errno === MYSQL_ERRORS.FOREIGN_KEY) {
-          throw new ConflictException(
-            `Cannot delete this ${this.entityName.toLowerCase()} because it is still referenced by other records.`,
-          );
-        }
-
-        if (errno === MYSQL_ERRORS.DUPLICATE_ENTRY) {
-          throw new ConflictException(`${this.entityName} already exists.`);
-        }
-        if (errno === MYSQL_ERRORS.REFERENCED_ROW_MISSING) {
-          throw new ConflictException(
-            `One of the referenced records for this ${this.entityName.toLowerCase()} no longer exists.`,
-          );
-        }
-      }
+      handleDatabaseError(error, this.entityName);
       throw error;
     }
   }

@@ -9,6 +9,8 @@ import {
 } from './config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule, CategoriesModule, ProductsModule } from './modules';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { HttpExceptionFilter, ResponseInterceptor } from './common';
 
 @Module({
   imports: [
@@ -26,6 +28,16 @@ import { UsersModule, CategoriesModule, ProductsModule } from './modules';
     UsersModule,
     CategoriesModule,
     ProductsModule,
+  ],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
   ],
 })
 export class AppModule {}

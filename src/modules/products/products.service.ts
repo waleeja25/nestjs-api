@@ -44,15 +44,6 @@ export class ProductsService extends BaseService<Product> {
     });
   }
 
-  async findAll(): Promise<Product[]> {
-    return this.repository.find({
-      relations: {
-        user: true,
-        category: true,
-      },
-    });
-  }
-
   async findAllWithFilters(
     query: ProductQueryDto,
   ): Promise<PaginatedResult<Product>> {

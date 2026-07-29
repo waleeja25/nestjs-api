@@ -26,6 +26,7 @@ export class Product extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.products, {
     onDelete: 'NO ACTION',
+    nullable: false,
   })
   @JoinColumn({
     name: 'userId',
@@ -35,6 +36,7 @@ export class Product extends BaseEntity {
 
   @ManyToOne(() => Category, (category) => category.products, {
     onDelete: 'NO ACTION',
+    nullable: false,
   })
   @JoinColumn({
     name: 'categoryId',
