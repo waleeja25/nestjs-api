@@ -1,1 +1,1 @@
-export { MYSQL_ERRORS } from './constants';
+export { MYSQL_ERRORS, DEFAULT_MESSAGES } from './constants';

@@ -12,7 +12,9 @@ import {
 
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto, ProductQueryDto } from './dto';
+import { ResourceName } from '../../common';
 
+@ResourceName('Product')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}

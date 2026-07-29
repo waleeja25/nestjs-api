@@ -10,7 +10,9 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './dto';
+import { ResourceName } from '../../common';
 
+@ResourceName('User')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
