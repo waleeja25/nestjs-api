@@ -9,12 +9,7 @@ import { Reflector } from '@nestjs/core';
 import { Observable, map } from 'rxjs';
 import { DEFAULT_MESSAGES } from '../constants';
 import { RESOURCE_NAME } from '../decorators';
-
-export interface Response<T> {
-  success: boolean;
-  message: string;
-  data: T;
-}
+import { Response } from '../interface';
 
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
