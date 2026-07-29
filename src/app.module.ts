@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import {
   appConfig,
@@ -7,9 +8,11 @@ import {
   validationSchema,
   getTypeOrmConfig,
 } from './config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { UsersModule, CategoriesModule, ProductsModule } from './modules';
+
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+
 import {
   HttpExceptionFilter,
   ResponseInterceptor,

@@ -19,6 +19,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
     next: CallHandler<any>,
   ): Observable<Response<T>> {
     const request = context.switchToHttp().getRequest<Request>();
+
     const resourceName = this.reflector.get<string>(
       RESOURCE_NAME,
       context.getClass(),
