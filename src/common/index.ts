@@ -6,3 +6,4 @@ export * from './dto';
 export * from './interface';
 export * from './middleware';
 export * from './decorators';
+export * from './pipes';
