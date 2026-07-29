@@ -1,98 +1,236 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS CRUD API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A modular RESTful CRUD API built with **NestJS**, **TypeORM**, and **MySQL**. The project demonstrates clean architecture, reusable services, centralized error handling, validation, pagination, filtering, and consistent API responses.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- NestJS modular architecture
+- TypeORM with MySQL
+- Environment configuration using `@nestjs/config`
+- Joi configuration validation
+- Generic `BaseService` for reusable CRUD operations
+- Global exception handling
+- Global response interceptor
+- Request logging middleware
+- DTO validation using `class-validator`
+- Pagination, filtering, and sorting for products
+- Database migrations
+- Centralized database error handling
+- Consistent API response structure
 
-## Project setup
+---
 
-```bash
-$ npm install
+## Tech Stack
+
+- NestJS
+- TypeScript
+- TypeORM
+- MySQL
+- class-validator
+- class-transformer
+- Joi
+- dotenv
+
+---
+
+## Project Structure
+
+```text
+src
+├── common
+│   ├── constants
+│   ├── decorators
+│   ├── filters
+│   ├── helpers
+│   ├── interceptors
+│   ├── middleware
+│   ├── services
+│   └── interfaces
+│
+├── config
+│
+├── database
+│   ├── migrations
+│   └── data-source.ts
+│
+├── modules
+│   ├── users
+│   ├── categories
+│   └── products
+│
+├── app.module.ts
+└── main.ts
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## Environment Variables
 
-# watch mode
-$ npm run start:dev
+Create a `.env` file in the project root.
 
-# production mode
-$ npm run start:prod
+```env
+PORT=3000
+
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=your_password
+DB_NAME=nestjs_api
 ```
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+## API Modules
 
-# e2e tests
-$ npm run test:e2e
+### Users
 
-# test coverage
-$ npm run test:cov
+- Create User
+- Get All Users
+- Get User By ID
+- Update User
+- Delete User
+
+---
+
+### Categories
+
+- Create Category
+- Get All Categories
+- Get Category By ID
+- Update Category
+- Delete Category
+
+---
+
+### Products
+
+- Create Product
+- Get Products
+- Get Product By ID
+- Update Product
+- Delete Product
+
+Additional features:
+
+- Pagination
+- Search
+- Sorting
+- Filter by User
+- Filter by Category
+
+---
+
+## Validation
+
+Validation is implemented globally using NestJS `ValidationPipe`.
+
+Features include:
+
+- Automatic DTO validation
+- Request transformation
+- Property whitelisting
+- Unknown property rejection
+
+---
+
+## Response Format
+
+Successful response
+
+```json
+{
+  "success": true,
+  "message": "User created successfully",
+  "data": {}
+}
 ```
 
-## Deployment
+Error response
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```json
+{
+  "success": false,
+  "message": "User not found",
+  "data": null
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## Error Handling
 
-Check out a few resources that may come in handy when working with NestJS:
+A global exception filter provides consistent error responses.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Handled scenarios include:
 
-## Support
+- Validation errors
+- Resource not found
+- Duplicate records
+- Foreign key constraint violations
+- Invalid referenced records
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+## Logging
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+A global logging middleware logs incoming requests including:
 
-## License
+- HTTP method
+- Route
+- Response status
+- Request duration
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Example:
+
+```text
+LOG [LoggingMiddleware] GET request received for /users - Status: 200 - 12ms
+```
+
+---
+
+## Configuration
+
+Configuration is managed using:
+
+- `ConfigModule`
+- `ConfigService`
+- Joi validation
+- Environment variables
+
+---
+
+## Reusable Components
+
+### BaseService
+
+Provides reusable CRUD operations:
+
+- create
+- findAll
+- findById
+- update
+- delete
+
+---
+
+### Response Interceptor
+
+Wraps every successful response into a consistent structure.
+
+---
+
+### Exception Filter
+
+Transforms all HTTP exceptions into a unified response format.
+
+---
+
+### Database Error Helper
+
+Converts MySQL database errors into meaningful HTTP exceptions.
+
+---
+
+
